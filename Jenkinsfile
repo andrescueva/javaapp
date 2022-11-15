@@ -20,15 +20,19 @@ pipeline {
     }
   }
   stages {
-    stage('Buzz Buzz') {
-      agent any
+    stage('Run maven') {
       steps {
-        container('maven')
-        {
-          echo 'Bees Buzz!'
+        container('maven') {
+          sh 'mvn -version'
+          sh ' echo Hello World > hello.txt'
+          sh 'ls -last'
+        }
+        container('node') {
+          sh 'npm version'
+          sh 'cat hello.txt'
+          sh 'ls -last'
         }
       }
     }
-
   }
 }
